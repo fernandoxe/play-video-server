@@ -25,6 +25,13 @@ app.get('*', (req, res) => {
 
 io.on('connection', (socket) => {
   console.log('connected');
+  
+  socket.on('play', (time) => {
+    console.log('play at', time);
+  });
+  socket.on('pause', (time) => {
+    console.log('pause at', time);
+  });
 });
 
 server.listen(PORT, () => {

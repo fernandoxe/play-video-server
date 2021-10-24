@@ -32,6 +32,9 @@ io.on('connection', (socket) => {
   socket.on('pause', (time) => {
     console.log('pause at', time);
   });
+  socket.on('seeked', (time) => {
+    console.log('seeked at', time);
+  });
 });
 
 server.listen(PORT, () => {

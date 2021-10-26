@@ -28,6 +28,7 @@ io.on('connection', (socket) => {
   
   socket.on('play', (time) => {
     console.log('play at', time);
+    socket.broadcast.emit('played', time);
   });
   socket.on('pause', (time) => {
     console.log('pause at', time);

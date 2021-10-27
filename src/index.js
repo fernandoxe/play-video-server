@@ -36,6 +36,7 @@ io.on('connection', (socket) => {
   });
   socket.on('seeked', (time) => {
     console.log('seeked at', time);
+    socket.broadcast.emit('seek', time);
   });
 });
 

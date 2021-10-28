@@ -27,15 +27,12 @@ io.on('connection', (socket) => {
   console.log('connected');
   
   socket.on('play', (time) => {
-    console.log('play at', time);
     socket.broadcast.emit('played', time);
   });
   socket.on('pause', (time) => {
-    console.log('pause at', time);
     socket.broadcast.emit('paused', time);
   });
   socket.on('seeked', (time) => {
-    console.log('seeked at', time);
     socket.broadcast.emit('seek', time);
   });
 });

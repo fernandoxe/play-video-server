@@ -18,6 +18,14 @@ app.get('*', (_req, res) => {
   res.status(404).send('Not found');
 });
 
+const getUsersInRoom = (roomName) => {
+  const room = io.sockets.adapter.rooms.get(roomName) || [];
+  const roomIds = Array.from(room);
+  const sockets = io.sockets.sockets;
+  const users = roomIds.map(x => sockets.get(x).user);
+  return users;
+};
+
 io.on('connection', (socket) => {
   console.log('connected');
   
@@ -26,11 +34,13 @@ io.on('connection', (socket) => {
     socket.join(message.room);
     socket.room = message.room;
     console.log(`User ${message.user} joined to room ${message.room}`);
-    socket.to(message.room).emit('joined', {room: message.room, user: message.user});
+    const users = getUsersInRoom(message.room);
+    io.in(message.room).emit('joined', {room: message.room, user: message.user, users});
   });
   socket.on('disconnect', () => {
     console.log(`User ${socket.user} left the room ${socket.room}`);
-    socket.to(socket.room).emit('left', {room: socket.room, user: socket.user});
+    const users = getUsersInRoom(socket.room);
+    socket.to(socket.room).emit('left', {room: socket.room, user: socket.user, users});
   });
   
   socket.on('play', (message) => {

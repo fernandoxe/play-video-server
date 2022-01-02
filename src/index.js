@@ -42,6 +42,10 @@ io.on('connection', (socket) => {
     const users = getUsersInRoom(socket.room);
     socket.to(socket.room).emit('left', {room: socket.room, user: socket.user, users});
   });
+  socket.on('ping', (message) => {
+    console.log(`User ${message.user} sent ping at ${message.time}`);
+    io.in(message.room).emit('ping', message);
+  });
   
   socket.on('play', (message) => {
     console.log(`User ${message.user} touched play at ${message.time} in room ${message.room}`);

@@ -33,9 +33,9 @@ io.on('connection', (socket) => {
     socket.user = message.user;
     socket.join(message.room);
     socket.room = message.room;
-    console.log(`User ${message.user} joined to room ${message.room}`);
+    console.log(`User ${message.user} joined to room ${message.room} its time ${message.time}`);
     const users = getUsersInRoom(message.room);
-    io.in(message.room).emit('joined', {room: message.room, user: message.user, users});
+    io.in(message.room).emit('joined', {room: message.room, user: message.user, users, time: message.time});
   });
   socket.on('disconnect', () => {
     console.log(`User ${socket.user} left the room ${socket.room}`);

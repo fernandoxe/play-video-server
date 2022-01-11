@@ -14,6 +14,10 @@ const io = new Server(server, {
 
 const PORT = process.env.PORT || 5000;
 
+app.get('/ping', (_req, res) => {
+  res.json({date: new Date()});
+});
+
 app.get('*', (_req, res) => {
   res.status(404).send('Not found');
 });
